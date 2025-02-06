@@ -44,7 +44,6 @@ def predict():
 
     # Save the uploaded file
     image_path = os.path.join("uploads", file.filename)
-    os.makedirs("uploads", exist_ok=True)  # Ensure the directory exists
     file.save(image_path)
 
     # Run Nude Detection on the image
