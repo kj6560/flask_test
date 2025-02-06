@@ -8,7 +8,7 @@ myapp = Flask(__name__)
 
 # Create necessary directories for storing the video and frames
 UPLOAD_DIR = "uploads"
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = '/var/www/shiwkesh/nudity/app/uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 FRAMES_DIR = os.path.join(UPLOAD_DIR, "frames")
