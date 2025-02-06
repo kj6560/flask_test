@@ -122,7 +122,7 @@ def predict_video():
         return jsonify({"error": "No video file provided"}), 400
 
     video_file = request.files['video']
-    video_path = os.path.join(UPLOAD_DIR, video_file.filename)
+    video_path = os.path.join(UPLOAD_FOLDER, video_file.filename)
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Ensure directory exists
     video_file.save(video_path)
 
