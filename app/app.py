@@ -30,11 +30,11 @@ def home():
     return jsonify({
         'users':data
     })
-@app.route('/uploads/<path:filename>')
+@myapp.route('/uploads/<path:filename>')
 def get_uploaded_file(filename):
     return send_from_directory(UPLOAD_DIR, filename)
 
-@app.route('/predict', methods=['POST'])
+@myapp.route('/predict', methods=['POST'])
 def predict():
     # Check if an image was uploaded
     if 'image' not in request.files:
@@ -110,7 +110,7 @@ def is_explicit_video_content(predictions, threshold=0.50):
         if item["score"] > threshold and item["class"] in explicit_classes:
             return True  # Return True if explicit content is detected
     return False  # Return False if no explicit content is detected
-@app.route('/predict_video', methods=['POST'])
+@myapp.route('/predict_video', methods=['POST'])
 def predict_video():
     # Check if video file is provided
     if 'video' not in request.files:
