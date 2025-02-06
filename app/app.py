@@ -85,7 +85,7 @@ def extract_frames(video_path, frame_interval=5):
         if frame_count % (frame_interval * fps) == 0:
             timestamp = frame_count / fps  # Calculate timestamp for the frame
             timestamp_str = f"{timestamp:.2f}"  # Format timestamp for filename
-            frame_filename = os.path.join(FRAMES_DIR, f"frame_{timestamp_str}.jpg")
+            frame_filename = os.path.join(UPLOAD_FOLDER, f"frame_{timestamp_str}.jpg")
             cv2.imwrite(frame_filename, frame)
             frames.append((timestamp_str, frame_filename))  # Save timestamp and frame path
 
