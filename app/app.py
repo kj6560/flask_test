@@ -32,7 +32,7 @@ def home():
     data = cursor.fetchall()
     print(data)
     return render_template('index.html')
-@myapp.route('/app/uploads/<path:filename>')
+@myapp.route('/uploads/<path:filename>')
 def get_uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
