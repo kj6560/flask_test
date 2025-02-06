@@ -4,6 +4,7 @@ import os
 from nudenet import NudeDetector
 import cv2
 import os
+from concurrent.futures import ThreadPoolExecutor
 myapp = Flask(__name__)
 
 # Create necessary directories for storing the video and frames
@@ -106,7 +107,6 @@ def is_explicit_video_content(predictions, threshold=0.50):
         if item["score"] > threshold and item["class"] in explicit_classes:
             return True  # Return True if explicit content is detected
     return False  # Return False if no explicit content is detected
-from concurrent.futures import ThreadPoolExecutor
 
 def process_frame(frame_path):
     detections = detector.detect(frame_path)
