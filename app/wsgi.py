@@ -1,9 +1,18 @@
 import sys
+import site
 import os
 
-# Ensure the app's directory is in the system path
-sys.path.insert(0, os.path.dirname(__file__))
+# Path to your virtual environment
+venv_path = "/var/www/shiwkesh/nudity/venv"
 
-from app import myapp  # Import your Flask app instance
+# Add site-packages of the virtualenv
+site.addsitedir(f"{venv_path}/lib/python3.10/site-packages")
 
-app = myapp  # Correctly assign the Flask app for WSGI
+# Activate the virtual environment
+sys.path.insert(0, "/var/www/shiwkesh/nudity")
+sys.path.insert(0, venv_path)
+os.environ["PYTHONHOME"] = venv_path
+os.environ["PYTHONPATH"] = f"{venv_path}/lib/python3.10/site-packages"
+
+# Import Flask app
+from app import myapp
