@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor
 myapp = Flask(__name__)
 
 # Create necessary directories for storing the video and frames
-UPLOAD_FOLDER = '/var/www/shiwkesh/nudity/app/uploads'
+UPLOAD_FOLDER = '/Users/keshav/python_apps/flask_one/app/uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 # Initialize NudeDetector
@@ -30,8 +30,9 @@ def home():
 
     cursor.execute("SELECT * from users")
     data = cursor.fetchall()
+    print(data)
     return render_template('index.html')
-@myapp.route('/uploads/<path:filename>')
+@myapp.route('/app/uploads/<path:filename>')
 def get_uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
 
