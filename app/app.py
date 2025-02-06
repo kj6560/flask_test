@@ -52,7 +52,7 @@ def predict():
     result = is_explicit_content(classification_result)
 
     # Remove the saved image after processing
-    os.remove(image_path)
+    # os.remove(image_path)
 
     # Return response
     return jsonify({
