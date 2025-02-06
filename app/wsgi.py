@@ -1,6 +1,3 @@
 from app import myapp
 
-app = myapp()
-
-if __name__ == "__main__":
-    app.run()
+app = myapp  # Don't call it as a function
