@@ -8,6 +8,9 @@ myapp = Flask(__name__)
 
 # Create necessary directories for storing the video and frames
 UPLOAD_DIR = "uploads"
+UPLOAD_FOLDER = 'uploads'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 FRAMES_DIR = os.path.join(UPLOAD_DIR, "frames")
 # Initialize NudeDetector
 detector = NudeDetector()
@@ -36,15 +39,18 @@ def get_uploaded_file(filename):
 
 @myapp.route('/predict', methods=['POST'])
 def predict():
-    # Check if an image was uploaded
-    if 'image' not in request.files:
-        return jsonify({"error": "No image provided"}), 400
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
 
-    file = request.files['image']
+    file = request.files['file']
 
-    # Save the uploaded file
-    image_path = os.path.join("uploads", file.filename)
-    file.save(image_path)
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+
+    if file:
+        # Save the file to the uploads directory
+        image_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        file.save(image_path)
 
     # Run Nude Detection on the image
     classification_result = detector.detect(image_path)
