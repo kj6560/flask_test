@@ -158,7 +158,7 @@ def predict_video():
                     "timestamp": frame_data["timestamp"],
                     "class": item["class"],
                     "score_percentage": item["score_percentage"],
-                    "frame_path": os.path.relpath(frame_data["frame_path"], start="/var/www/shiwkesh/nudity/app")
+                    "frame_path": "https://nud.shiwkesh.in/"+os.path.relpath(frame_data["frame_path"], start="/var/www/shiwkesh/nudity/app")
                 })
 
         return jsonify({
