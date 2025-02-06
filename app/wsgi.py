@@ -6,4 +6,4 @@ sys.path.insert(0, os.path.dirname(__file__))
 
 from app import myapp  # Import your Flask app instance
 
-app = myapp  # Ensure it's assigned as a WSGI application object
+app = myapp  # Correctly assign the Flask app for WSGI
