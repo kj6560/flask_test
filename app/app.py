@@ -1,5 +1,5 @@
 import concurrent
-from flask import Flask, jsonify, request,send_from_directory
+from flask import Flask, jsonify, request,send_from_directory,render_template
 from flaskext.mysql import MySQL
 import os
 from nudenet import NudeDetector
@@ -30,9 +30,7 @@ def home():
 
     cursor.execute("SELECT * from users")
     data = cursor.fetchall()
-    return jsonify({
-        'users':data
-    })
+    return render_template('index.html')
 @myapp.route('/uploads/<path:filename>')
 def get_uploaded_file(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
