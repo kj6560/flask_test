@@ -115,50 +115,59 @@ def is_explicit_video_content(predictions, threshold=0.50):
     return False  # Return False if no explicit content is detected
 @myapp.route('/predict_video', methods=['POST'])
 def predict_video():
-    # Check if video file is provided
-    if 'video' not in request.files:
-        return jsonify({"error": "No video file provided"}), 400
+    try:
+        # Check if video file is provided
+        if 'video' not in request.files:
+            return jsonify({"error": "No video file provided"}), 400
 
-    video_file = request.files['video']
-    video_path = os.path.join(UPLOAD_FOLDER, video_file.filename)
-    video_file.save(video_path)
+        video_file = request.files['video']
+        video_path = os.path.join(UPLOAD_FOLDER, video_file.filename)
 
-    # Extract frames from video
-    frames = extract_frames(video_path, frame_interval=1)
-    flagged_frames = []
+        # Save the video file
+        video_file.save(video_path)
+        print(f"Video saved to: {video_path}")  # Debug statement
 
-    # Process each frame for nudity detection
-    for timestamp, frame_path in frames:
-        detections = detector.detect(frame_path)
-        flagged_detections = is_explicit_content(detections, threshold=0.50)  # Use helper function
-        
-        if flagged_detections:
-            flagged_frames.append({
-                "timestamp": timestamp,
-                "frame_path": frame_path,  # Include the frame path
-                "detections": flagged_detections
-            })
-        else:
-            os.remove(frame_path)  # Delete frame after processing
+        # Extract frames from video
+        frames = extract_frames(video_path, frame_interval=1)
+        print(f"Extracted {len(frames)} frames")  # Debug statement
 
-    # Clean up the uploaded video file
-    os.remove(video_path)
+        flagged_frames = []
 
-    # Prepare response with only flagged classes and frame paths
-    responseData = []
-    for frame_data in flagged_frames:
-        for item in frame_data["detections"]:
-            responseData.append({
-                "timestamp": frame_data["timestamp"],
-                "class": item["class"],
-                "score_percentage": item["score_percentage"],
-                "frame_path": frame_data["frame_path"]  # Include the flagged frame path
-            })
+        # Process each frame for nudity detection
+        for timestamp, frame_path in frames:
+            detections = detector.detect(frame_path)
+            flagged_detections = is_explicit_content(detections, threshold=0.50)
 
-    return jsonify({
-        "flagged_timestamps": responseData,
-        "explicit_detected": len(flagged_frames) > 0
-    })
+            if flagged_detections:
+                flagged_frames.append({
+                    "timestamp": timestamp,
+                    "frame_path": frame_path,
+                    "detections": flagged_detections
+                })
+            else:
+                os.remove(frame_path)  # Delete frame after processing
 
+        # Clean up the uploaded video file
+        os.remove(video_path)
+
+        # Prepare response with only flagged classes and frame paths
+        responseData = []
+        for frame_data in flagged_frames:
+            for item in frame_data["detections"]:
+                responseData.append({
+                    "timestamp": frame_data["timestamp"],
+                    "class": item["class"],
+                    "score_percentage": item["score_percentage"],
+                    "frame_path": frame_data["frame_path"]
+                })
+
+        return jsonify({
+            "flagged_timestamps": responseData,
+            "explicit_detected": len(flagged_frames) > 0
+        })
+
+    except Exception as e:
+        print(f"Error in /predict_video: {str(e)}")  # Debug statement
+        return jsonify({"error": str(e)}), 500
 if __name__ == '__main__':
     myapp.run(debug=True)
