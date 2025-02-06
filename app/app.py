@@ -128,7 +128,7 @@ def predict_video():
         print(f"Video saved to: {video_path}")  # Debug statement
 
         # Extract frames from video
-        frames = extract_frames(video_path, frame_interval=1)
+        frames = extract_frames(video_path, frame_interval=4)
         print(f"Extracted {len(frames)} frames")  # Debug statement
 
         flagged_frames = []
