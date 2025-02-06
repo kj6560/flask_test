@@ -7,11 +7,9 @@ import os
 myapp = Flask(__name__)
 
 # Create necessary directories for storing the video and frames
-UPLOAD_DIR = "uploads"
 UPLOAD_FOLDER = '/var/www/shiwkesh/nudity/app/uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
-FRAMES_DIR = os.path.join(UPLOAD_DIR, "frames")
 # Initialize NudeDetector
 detector = NudeDetector()
 
@@ -35,7 +33,7 @@ def home():
     })
 @myapp.route('/uploads/<path:filename>')
 def get_uploaded_file(filename):
-    return send_from_directory(UPLOAD_DIR, filename)
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
 @myapp.route('/predict', methods=['POST'])
 def predict():
