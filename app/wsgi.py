@@ -15,4 +15,4 @@ os.environ["PYTHONHOME"] = venv_path
 os.environ["PYTHONPATH"] = f"{venv_path}/lib/python3.10/site-packages"
 
 # Import Flask app
-from app import myapp
+from app import myapp as application
